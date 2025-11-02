@@ -9,11 +9,13 @@ public class GameScreen extends JFrame {
     private double SCREEN_HEIGHT;
 
     private List<Bird> birds;
+    private List<Pipe> pipes;
 
-    public GameScreen(double screenWidth, double screenHeight, List<Bird> birds) {
+    public GameScreen(double screenWidth, double screenHeight, List<Bird> birds, List<Pipe> pipes) {
         this.SCREEN_WIDTH = screenWidth;
         this.SCREEN_HEIGHT = screenHeight;
         this.birds = birds;
+        this.pipes = pipes;
 
         setTitle("FlappyBird IA - Java");
         setSize((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT);
@@ -38,6 +40,10 @@ public class GameScreen extends JFrame {
 
             for (Bird bird : birds) {
                 bird.draw(g);
+            }
+
+            for (Pipe pipe : pipes) {
+                pipe.draw(g);
             }
         }
     }
