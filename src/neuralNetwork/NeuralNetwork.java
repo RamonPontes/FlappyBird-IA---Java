@@ -2,7 +2,6 @@ package neuralNetwork;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NeuralNetwork {
@@ -43,12 +42,9 @@ public class NeuralNetwork {
     }
 
     // Feedforward method to propagate inputs through the network
-    public void feedForward(List<NeuronInput> inputs) {
-        for (Neuron neuron : inputLayerNeurons) {
-            neuron.setInputs(inputs.stream()
-                    .filter(
-                            e -> e.getFromNeuron() == neuron)
-                    .collect(Collectors.toList()));
+    public void feedForward(List<Double> inputs) {
+        for (int i = 0; i < inputs.size(); i++) {
+            inputLayerNeurons.get(i).setOutput(inputs.get(i));
         }
 
         for (int i = 0; i < hiddenLayerNeurons.size(); i++) {
@@ -72,11 +68,9 @@ public class NeuralNetwork {
     }
 
     // Get the outputs of the network as a map of output index to output value
-    public Map<Integer, Double> getOutputs() {
+    public List<Double> getOutputs() {
         return outputLayerNeurons.stream()
-                .collect(Collectors.toMap(
-                        outputLayerNeurons::indexOf,
-                        neuron -> neuron.getOutput(true)
-                ));
+                .map(e -> e.getOutput(true))
+                .collect(Collectors.toList());
     }
 }

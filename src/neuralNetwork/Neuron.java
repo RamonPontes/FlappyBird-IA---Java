@@ -50,4 +50,8 @@ public class Neuron {
     public int getInputSize() {
         return InputSize;
     }
+
+    public void setOutput(double output) {
+        this.output = output;
+    }
 }

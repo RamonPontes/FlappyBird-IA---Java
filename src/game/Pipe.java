@@ -42,4 +42,12 @@ public class Pipe {
     public double getX() {
         return x;
     }
+
+    public double getGapY() {
+        return gapY;
+    }
+
+    public double getGap() {
+        return gap;
+    }
 }

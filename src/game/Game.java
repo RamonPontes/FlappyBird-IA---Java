@@ -23,14 +23,14 @@ public class Game {
     private static final double PIPE_SPAWN_INTERVAL = 3000;
 
     // Population size
-    private static final int POPULATION_SIZE = 50;
+    private static final int POPULATION_SIZE = 1;
 
-    private List<Bird> birds;
-    private List<Pipe> pipes;
-    private Thread gameLoop;
-    private GameScreen gameScreen;
-    private long lastPipeTime = 0;
-    private boolean running;
+    private static List<Bird> birds;
+    private static List<Pipe> pipes;
+    private static Thread gameLoop;
+    private static GameScreen gameScreen;
+    private static long lastPipeTime = 0;
+    private static boolean running;
 
     public Game() {
         birds = new ArrayList<>();
@@ -64,6 +64,7 @@ public class Game {
                 createPipesLoop();
                 updatePositions();
                 verifyCollisions();
+                getNextAction();
 
                 gameScreen.repaint();
                 try {
@@ -74,6 +75,12 @@ public class Game {
             }
         });
         return gameLoop;
+    }
+
+    public void getNextAction() {
+        for (Bird bird : birds) {
+            bird.getNextAction();
+        }
     }
 
     public void createPipesLoop() {
@@ -112,10 +119,26 @@ public class Game {
             if (bird.getY() + BIRD_HEIGHT >= SCREEN_HEIGHT) {
                 running = false;
             }
+
+            if (!running) {
+                restart();
+            }
         }
     }
 
-    public Pipe getNextPipe(Bird bird) {
+    public void restart() {
+        birds.clear();
+        pipes.clear();
+
+        for (int i = 0; i < POPULATION_SIZE; i++) {
+            birds.add(new Bird(100, SCREEN_HEIGHT / 2, BIRD_WIDTH, BIRD_HEIGHT, DEFAULT_VELOCITY, GRAVITY, JUMP_STRENGTH));
+        }
+
+        lastPipeTime = 0;
+        running = true;
+    }
+
+    public static Pipe getNextPipe(Bird bird) {
         for (Pipe pipe : pipes) {
             if (bird.getX() < pipe.getX()) {
                 return pipe;
