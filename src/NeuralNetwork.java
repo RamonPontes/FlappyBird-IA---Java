@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class NeuralNetwork {
     private static final int INPUTS_SIZE = 3; // Number of input features
@@ -11,6 +13,8 @@ public class NeuralNetwork {
     private List<List<Neuron>> hiddenLayerNeurons;
     private List<Neuron> outputLayerNeurons;
 
+
+    // Constructor to initialize the neural network structure
     public NeuralNetwork() {
         inputLayerNeurons = new ArrayList<>();
         hiddenLayerNeurons = new ArrayList<>();
@@ -34,5 +38,43 @@ public class NeuralNetwork {
         for (int i = 0; i < OUTPUTS_SIZE; i++) {
             outputLayerNeurons.add(new Neuron(NEURONS_PER_HIDDEN_LAYER));
         }
+    }
+
+    // Feedforward method to propagate inputs through the network
+    public void feedForward(List<NeuronInput> inputs) {
+        for (Neuron neuron : inputLayerNeurons) {
+            neuron.setInputs(inputs.stream()
+                    .filter(
+                            e -> e.getFromNeuron() == neuron)
+                    .collect(Collectors.toList()));
+        }
+
+        for (int i = 0; i < hiddenLayerNeurons.size(); i++) {
+            List<Neuron> currentLayer = hiddenLayerNeurons.get(i);
+            List<Neuron> previousLayer = (i == 0) ? inputLayerNeurons : hiddenLayerNeurons.get(i - 1);
+
+            for (Neuron neuron : currentLayer) {
+                List<NeuronInput> neuronInputs = previousLayer.stream()
+                        .map(prevNeuron -> new NeuronInput(prevNeuron, neuron))
+                        .collect(Collectors.toList());
+                neuron.setInputs(neuronInputs);
+            }
+        }
+
+        for (Neuron neuron : outputLayerNeurons) {
+            List<NeuronInput> neuronInputs = hiddenLayerNeurons.get(hiddenLayerNeurons.size() - 1).stream()
+                    .map(prevNeuron -> new NeuronInput(prevNeuron, neuron))
+                    .collect(Collectors.toList());
+            neuron.setInputs(neuronInputs);
+        }
+    }
+
+    // Get the outputs of the network as a map of output index to output value
+    public Map<Integer, Double> getOutputs() {
+        return outputLayerNeurons.stream()
+                .collect(Collectors.toMap(
+                        outputLayerNeurons::indexOf,
+                        neuron -> neuron.getOutput(true)
+                ));
     }
 }
