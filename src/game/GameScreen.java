@@ -36,12 +36,14 @@ public class GameScreen extends JFrame {
             }
         });
         add(new GamePanel());
+        pack();
     }
 
     private class GamePanel extends JPanel {
         public GamePanel() {
             setFocusable(true);
             requestFocusInWindow();
+            setPreferredSize(new Dimension((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT));
         }
 
         @Override
