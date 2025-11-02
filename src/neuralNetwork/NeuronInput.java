@@ -7,11 +7,10 @@ public class NeuronInput {
     private final Neuron fromNeuron;
     private final Neuron toNeuron;
 
-    public NeuronInput(Neuron fromNeuron, Neuron toNeuron) {
-        this.value = 0.0;
-
+    public NeuronInput(Neuron fromNeuron, Neuron toNeuron, double value) {
         this.fromNeuron = fromNeuron;
         this.toNeuron = toNeuron;
+        this.value = value;
         this.weight = new NeuronWeight(toNeuron.getInputSize());
     }
 
@@ -21,13 +20,5 @@ public class NeuronInput {
 
     public NeuronWeight getWeight() {
         return weight;
-    }
-
-    public Neuron getToNeuron() {
-        return toNeuron;
-    }
-
-    public Neuron getFromNeuron() {
-        return fromNeuron;
     }
 }

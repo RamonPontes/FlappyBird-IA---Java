@@ -53,7 +53,7 @@ public class NeuralNetwork {
 
             for (Neuron neuron : currentLayer) {
                 List<NeuronInput> neuronInputs = previousLayer.stream()
-                        .map(prevNeuron -> new NeuronInput(prevNeuron, neuron))
+                        .map(prevNeuron -> new NeuronInput(prevNeuron, neuron, prevNeuron.getOutput(false)))
                         .collect(Collectors.toList());
                 neuron.setInputs(neuronInputs);
             }
@@ -61,7 +61,7 @@ public class NeuralNetwork {
 
         for (Neuron neuron : outputLayerNeurons) {
             List<NeuronInput> neuronInputs = hiddenLayerNeurons.get(hiddenLayerNeurons.size() - 1).stream()
-                    .map(prevNeuron -> new NeuronInput(prevNeuron, neuron))
+                    .map(prevNeuron -> new NeuronInput(prevNeuron, neuron, prevNeuron.getOutput(true)))
                     .collect(Collectors.toList());
             neuron.setInputs(neuronInputs);
         }
