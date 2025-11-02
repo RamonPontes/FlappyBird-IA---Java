@@ -7,6 +7,11 @@ public class NeuronWeight {
 
     public NeuronWeight(int inputSize) {
         this.InputSize = inputSize;
-        this.weight = RANDOM.nextGaussian() * Math.sqrt(2.0 / InputSize);
+
+        if (inputSize <= 0) {
+            this.weight = RANDOM.nextGaussian() * Math.sqrt(2.0 / InputSize); // He initialization for ReLU activation
+        } else {
+            this.weight = 0.0; // No inputs, weight is set to 0
+        }
     }
 }
