@@ -25,4 +25,13 @@ public class Bird {
         g.setColor(Color.WHITE);
         g.fillRect((int) x, (int) y, (int) width, (int) height);
     }
+
+    public void update() {
+        velocity += gravity;
+        y += velocity;
+    }
+
+    public void jump() {
+        velocity = -jumpStrength * 0.3;
+    }
 }
