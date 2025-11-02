@@ -7,20 +7,20 @@ import java.util.List;
 public class Game {
     //  Screen dimensions
     public static final double SCREEN_WIDTH = 800;
-    public static final double SCREEN_HEIGHT = 800;
+    public static final double SCREEN_HEIGHT = 1000;
 
     // Bird configuration
     private static final double BIRD_WIDTH = 30;
     private static final double BIRD_HEIGHT = 30;
     private static final double DEFAULT_VELOCITY = 0;
     private static final double GRAVITY = 0.5;
-    private static final double JUMP_STRENGTH = -10;
+    private static final double JUMP_STRENGTH = 30;
 
     // Pipe configuration
     private static final double PIPE_WIDTH = 40;
     private static final double PIPE_GAP = 150;
     private static final double PIPE_VELOCITY = 2;
-    private static final double PIPE_SPAWN_INTERVAL = 2000;
+    private static final double PIPE_SPAWN_INTERVAL = 3000;
 
     // Population size
     private static final int POPULATION_SIZE = 50;
@@ -40,7 +40,7 @@ public class Game {
             birds.add(new Bird(100, SCREEN_HEIGHT / 2, BIRD_WIDTH, BIRD_HEIGHT, DEFAULT_VELOCITY, GRAVITY, JUMP_STRENGTH));
         }
 
-        gameScreen = new GameScreen(SCREEN_WIDTH, SCREEN_HEIGHT, birds, pipes);
+        gameScreen = new GameScreen(SCREEN_WIDTH, SCREEN_HEIGHT, birds, pipes, this);
         gameLoop = gameLoop();
         gameLoop.start();
 
@@ -123,5 +123,9 @@ public class Game {
         }
 
         return null;
+    }
+
+    public void setPaused() {
+        running = !running;
     }
 }
