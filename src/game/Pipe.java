@@ -27,4 +27,8 @@ public class Pipe {
         // Draw bottom pipe
         g.fillRect((int) x, (int) (height - gapY + gap), (int) width, (int) (gapY - gap));
     }
+
+    public void update() {
+        x -= velocity;
+    }
 }

@@ -19,13 +19,16 @@ public class Game {
     private static final double PIPE_WIDTH = 40;
     private static final double PIPE_GAP = 150;
     private static final double PIPE_VELOCITY = 2;
+    private static final double PIPE_SPAWN_INTERVAL = 2000;
 
+    // Population size
     private static final int POPULATION_SIZE = 50;
 
     private List<Bird> birds;
     private List<Pipe> pipes;
     private Thread gameLoop;
     private GameScreen gameScreen;
+    private long lastPipeTime = 0;
 
     public Game() {
         birds = new ArrayList<>();
@@ -41,7 +44,7 @@ public class Game {
 
     public void createPipe() {
         pipes.add(new Pipe(
-            SCREEN_WIDTH / 2,
+            SCREEN_WIDTH,
             PIPE_WIDTH,
             SCREEN_HEIGHT,
             PIPE_VELOCITY,
@@ -53,10 +56,8 @@ public class Game {
     public Thread gameLoop() {
         gameLoop = new Thread(() -> {
             while (true) {
-                for (Bird bird : birds) {
-                    bird.update();
-                }
-
+                createPipesLoop();
+                updatePositions();
 
                 gameScreen.repaint();
                 try {
@@ -67,5 +68,23 @@ public class Game {
             }
         });
         return gameLoop;
+    }
+
+    public void createPipesLoop() {
+        long now = System.currentTimeMillis();
+        if (now - lastPipeTime > PIPE_SPAWN_INTERVAL) {
+            createPipe();
+            lastPipeTime =  now;
+        }
+    }
+
+    public void updatePositions() {
+        for (Bird bird : birds) {
+            bird.update();
+        }
+
+        for (Pipe pipe : pipes) {
+            pipe.update();
+        }
     }
 }
