@@ -2,14 +2,18 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class GameScreen extends JFrame {
     private double SCREEN_WIDTH;
     private double SCREEN_HEIGHT;
 
-    public GameScreen(double screenWidth, double screenHeight) {
+    private List<Bird> birds;
+
+    public GameScreen(double screenWidth, double screenHeight, List<Bird> birds) {
         this.SCREEN_WIDTH = screenWidth;
         this.SCREEN_HEIGHT = screenHeight;
+        this.birds = birds;
 
         setTitle("FlappyBird IA - Java");
         setSize((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT);
@@ -17,6 +21,8 @@ public class GameScreen extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setVisible(true);
+
+        add(new GamePanel());
     }
 
     public class GamePanel extends JPanel {
@@ -29,6 +35,10 @@ public class GameScreen extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             setBackground(Color.BLACK);
+
+            for (Bird bird : birds) {
+                bird.draw(g);
+            }
         }
     }
 }
