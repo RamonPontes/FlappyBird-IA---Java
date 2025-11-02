@@ -6,10 +6,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NeuralNetwork {
-    private static final int INPUTS_SIZE = 3; // Number of input features
-    private static final int HIDDEN_LAYERS = 2; // Number of hidden layers
-    private static final int NEURONS_PER_HIDDEN_LAYER = 4; // Neurons per hidden layer
-    private static final int OUTPUTS_SIZE = 3; // Number of output classes
+    private static final int INPUTS_SIZE = 5; // Number of input features
+    private static final int HIDDEN_LAYERS = 1; // Number of hidden layers
+    private static final int NEURONS_PER_HIDDEN_LAYER = 5; // Neurons per hidden layer
+    private static final int OUTPUTS_SIZE = 1; // Number of output classes
 
     private List<Neuron> inputLayerNeurons;
     private List<List<Neuron>> hiddenLayerNeurons;

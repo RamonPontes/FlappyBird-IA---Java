@@ -34,4 +34,16 @@ public class Bird {
     public void jump() {
         velocity = -jumpStrength * 0.3;
     }
+
+    public Rectangle getRectangle() {
+        return new Rectangle((int) x, (int) y, (int) width, (int) height);
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

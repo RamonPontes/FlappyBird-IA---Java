@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.*;
+import java.util.List;
 
 public class Pipe {
     private double x;
@@ -30,5 +31,15 @@ public class Pipe {
 
     public void update() {
         x -= velocity;
+    }
+
+    public List<Rectangle> getRectangles() {
+        Rectangle topPipe = new Rectangle((int) x, 0, (int) width, (int) (height - gapY));
+        Rectangle bottomPipe = new Rectangle((int) x, (int) (height - gapY + gap), (int) width, (int) (gapY - gap));
+        return List.of(topPipe, bottomPipe);
+    }
+
+    public double getX() {
+        return x;
     }
 }

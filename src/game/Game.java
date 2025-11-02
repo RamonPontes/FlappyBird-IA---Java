@@ -1,16 +1,17 @@
 package game;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
     //  Screen dimensions
-    private static final double SCREEN_WIDTH = 800;
-    private static final double SCREEN_HEIGHT = 600;
+    public static final double SCREEN_WIDTH = 800;
+    public static final double SCREEN_HEIGHT = 800;
 
     // Bird configuration
-    private static final double BIRD_WIDTH = 34;
-    private static final double BIRD_HEIGHT = 24;
+    private static final double BIRD_WIDTH = 30;
+    private static final double BIRD_HEIGHT = 30;
     private static final double DEFAULT_VELOCITY = 0;
     private static final double GRAVITY = 0.5;
     private static final double JUMP_STRENGTH = -10;
@@ -29,6 +30,7 @@ public class Game {
     private Thread gameLoop;
     private GameScreen gameScreen;
     private long lastPipeTime = 0;
+    private boolean running;
 
     public Game() {
         birds = new ArrayList<>();
@@ -39,7 +41,10 @@ public class Game {
         }
 
         gameScreen = new GameScreen(SCREEN_WIDTH, SCREEN_HEIGHT, birds, pipes);
-        gameLoop().start();
+        gameLoop = gameLoop();
+        gameLoop.start();
+
+        running = true;
     }
 
     public void createPipe() {
@@ -55,9 +60,10 @@ public class Game {
 
     public Thread gameLoop() {
         gameLoop = new Thread(() -> {
-            while (true) {
+            while (running) {
                 createPipesLoop();
                 updatePositions();
+                verifyCollisions();
 
                 gameScreen.repaint();
                 try {
@@ -86,5 +92,36 @@ public class Game {
         for (Pipe pipe : pipes) {
             pipe.update();
         }
+    }
+
+    public void verifyCollisions() {
+        for (Bird bird : birds) {
+            Pipe nextPipe = getNextPipe(bird);
+
+            if (nextPipe != null) {
+                for (Rectangle rect : nextPipe.getRectangles()) {
+                    if (bird.getRectangle().intersects(rect)) {
+                        running = false;
+                    }
+                }
+            }
+
+            if (bird.getY() <= 0) {
+                running = false;
+            }
+            if (bird.getY() + BIRD_HEIGHT >= SCREEN_HEIGHT) {
+                running = false;
+            }
+        }
+    }
+
+    public Pipe getNextPipe(Bird bird) {
+        for (Pipe pipe : pipes) {
+            if (bird.getX() < pipe.getX()) {
+                return pipe;
+            }
+        }
+
+        return null;
     }
 }
