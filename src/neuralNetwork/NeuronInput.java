@@ -1,3 +1,5 @@
+package neuralNetwork;
+
 public class NeuronInput {
     private double value;
     private NeuronWeight weight;
