@@ -136,6 +136,7 @@ public class Game {
 
         lastPipeTime = 0;
         running = true;
+        gameLoop = gameLoop();
     }
 
     public static Pipe getNextPipe(Bird bird) {

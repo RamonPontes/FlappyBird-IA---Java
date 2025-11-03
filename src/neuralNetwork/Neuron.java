@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 public class Neuron {
     // Set activation function
-    Function<Double, Double> ACTIVATE_FUNCTION = x -> Math.max(0, x);
+    Function<Double, Double> ACTIVATE_FUNCTION = x -> (x <= 0.0) ? 0.0 : 1.0;
 
     private List<NeuronInput> inputs;
 
