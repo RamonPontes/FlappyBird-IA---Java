@@ -50,13 +50,24 @@ public class GameScreen extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             setBackground(Color.BLACK);
-
+            drawBestPositions(g);
+            
             for (Bird bird : birds) {
                 bird.draw(g);
             }
 
             for (Pipe pipe : pipes) {
                 pipe.draw(g);
+            }
+        }
+    }
+
+    private void drawBestPositions(Graphics g) {
+        for (Bird bird : birds) {
+            Pipe nextPipe = Game.getNextPipe(bird);
+            if (nextPipe != null) {
+                g.setColor(Color.YELLOW);
+                g.drawRect(10, (int) (nextPipe.getHeight() - nextPipe.getGapY()), (int) (nextPipe.getX() + nextPipe.getWidth()), (int) nextPipe.getGap());
             }
         }
     }
