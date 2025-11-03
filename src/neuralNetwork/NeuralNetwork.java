@@ -67,6 +67,28 @@ public class NeuralNetwork {
         }
     }
 
+    public void mutationNetwork() {
+        for (Neuron neuron : inputLayerNeurons) {
+            for (NeuronInput input : neuron.getInputs()) {
+                input.getWeight().mutateWeight();
+            }
+        }
+
+        for (List<Neuron> layer : hiddenLayerNeurons) {
+            for (Neuron neuron : layer) {
+                for (NeuronInput input : neuron.getInputs()) {
+                    input.getWeight().mutateWeight();
+                }
+            }
+        }
+
+        for (Neuron neuron : outputLayerNeurons) {
+            for (NeuronInput input : neuron.getInputs()) {
+                input.getWeight().mutateWeight();
+            }
+        }
+    }
+
     // Get the outputs of the network as a map of output index to output value
     public List<Double> getOutputs() {
         return outputLayerNeurons.stream()
